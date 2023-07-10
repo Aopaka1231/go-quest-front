@@ -5,7 +5,7 @@ function App() {
     return (
         <div className="App">
             <h1>Todo App with Golang</h1>
-            <Todos />
+            <Todos/>
         </div>
     );
 }
