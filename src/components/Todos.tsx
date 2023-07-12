@@ -9,7 +9,7 @@ interface Todo {
 
 export const Todos = () => {
     const [inputValue, setInputValue] = useState<string>("");
-    const [todos, setTodos] = useState<Todo[]>([]);
+    const [todo, setTodos] = useState<Todo[]>([]);
 
     useEffect(() => {
         const FetchData = async () => {
@@ -28,7 +28,7 @@ export const Todos = () => {
 
     const handleSubmit = async() => {
         console.log(inputValue)
-        await axios.post('http://8000/todo'.{
+        await axios.post('http://8000/todo',{
             "content": inputValue
         })
         .then(res => res.data)
@@ -60,17 +60,39 @@ export const Todos = () => {
         })
     }
 
+    const handleUpdate = async(id:number) => {
+
+        setInputValue("")
+
+        await axios.post(`http://8000/todo/${id}`,{
+            "content": inputValue
+        })
+        .then(res => res.data)
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+    }
+
     return (
-        <div className="form-wrapper">
+        <div>
+            <h1>
+                Hello Golang
+            </h1>
             <div>
                 <input value={inputValue} type="text" id="content" onChange={(e)=>{setInputValue(e.target.value)}}/>
-                <button onClick={handleSubmit}>追加</button>
+                <button onClick={() => handleSubmit}>追加</button>
             </div>
-            <ul className="todos">
+            <ul>
                 {
-                    todos.map((todo) => {
+                    todo.map((todo) => {
                         return(
                             <li key={todo.id}>
+                                <input value={inputValue} type="text" id="content" onChange={(e)=>{setInputValue(e.target.value)}}/>
+                                <button onClick={() => handleUpdate(todo.id)}>編集</button>
                                 {todo.content}
                                 <button onClick={()=>{handleDelete(todo.id)}}>削除</button>
                             </li>
