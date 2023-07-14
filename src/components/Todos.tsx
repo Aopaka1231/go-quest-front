@@ -64,7 +64,7 @@ export const Todos = () => {
 
         setInputValue("")
 
-        await axios.post(`http://localhost:8000/todo/${id}`,{
+        await axios.patch(`http://localhost:8000/todo/${id}`,{
             "content": inputValue
         })
         .then(res => res.data)
@@ -85,7 +85,7 @@ export const Todos = () => {
             </h1>
             <div>
                 <input value={inputValue} type="text" id="content" onChange={(e)=>{setInputValue(e.target.value)}}/>
-                <button onClick={() => handleSubmit}>追加</button>
+                <button onClick={handleSubmit}>追加</button>
             </div>
             <ul className="todos">
                 {
